@@ -7,16 +7,20 @@
 //
 
 import SwiftUI
+import CodeScanner
 
 struct ContentView: View {
     @State private var showalert = false
+    @State private var isShowingScanner = false
+    @State private var successCodeScan = false
+    
     var body: some View {
         VStack(spacing: 0) {
 
             Color("PrimaryColor").edgesIgnoringSafeArea(.all)
             
             VStack(spacing: 0) {
-                ZStack {
+                ZStack(alignment: .top) {
                     Color("PrimaryColor").frame(height: 250)
                     VStack {
                         HStack {
@@ -26,12 +30,16 @@ struct ContentView: View {
                                 .padding(.leading)
                             Spacer()
                             Button(action: {
-//                                print("aw")
+                                self.isShowingScanner = true
                             }) {
-                                Image(systemName: "pencil")
+                                Image(systemName: "square.and.arrow.up")
                             }.foregroundColor(.white)
                                 .padding(.all)
                                 .background(Color.black)
+                                .sheet(isPresented: $isShowingScanner) {
+                                    CodeScannerView(codeTypes: [.qr], simulatedData: "Some info and email", completion: self.handleScan)
+                            }
+
                         }.padding(.trailing)
                         HStack {
                             Text("20 charges overdue")
@@ -61,6 +69,16 @@ struct ContentView: View {
                         }
                         .padding(.leading)
                         .padding(.top)
+                        
+                        if(self.successCodeScan) {
+                            HStack {
+                                Text("Sucessfully linked desktop application!")
+                                      .foregroundColor(.white)
+                                      .padding(.leading)
+                                    .padding(.top)
+                                  Spacer()
+                            }
+                        }
                     }
                 }
                 ZStack {
@@ -108,6 +126,18 @@ struct ContentView: View {
                     Alert(title: Text("Prototype version"), message: Text("Sorry, this feature isn't available at this moment"))
                 }
             }
+        }
+    }
+    
+    func handleScan(result: Result<String, CodeScannerView.ScanError>) {
+        self.isShowingScanner = false
+
+        switch result {
+        case .success:
+            self.successCodeScan = true
+            print("Successfully linked to the desktop application")
+        case .failure:
+            print("Scan failed")
         }
     }
 }
