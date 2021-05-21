@@ -15,6 +15,7 @@
 		CE9983222655634D00FED748 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE9983202655634D00FED748 /* LaunchScreen.storyboard */; };
 		CE99832D2655634E00FED748 /* smthTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE99832C2655634E00FED748 /* smthTests.swift */; };
 		CE9983382655634E00FED748 /* smthUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9983372655634E00FED748 /* smthUITests.swift */; };
+		CE9983462655684300FED748 /* DoggoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9983452655684300FED748 /* DoggoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		CE9983332655634E00FED748 /* smthUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = smthUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE9983372655634E00FED748 /* smthUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = smthUITests.swift; sourceTree = "<group>"; };
 		CE9983392655634E00FED748 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE9983452655684300FED748 /* DoggoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DoggoView.swift; path = ../../DoggoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 				CE9983172655634B00FED748 /* SceneDelegate.swift */,
 				CE9983192655634B00FED748 /* ContentView.swift */,
 				CE99831B2655634D00FED748 /* Assets.xcassets */,
+				CE9983452655684300FED748 /* DoggoView.swift */,
 				CE9983202655634D00FED748 /* LaunchScreen.storyboard */,
 				CE9983232655634D00FED748 /* Info.plist */,
 				CE99831D2655634D00FED748 /* Preview Content */,
@@ -268,6 +271,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE9983162655634B00FED748 /* AppDelegate.swift in Sources */,
+				CE9983462655684300FED748 /* DoggoView.swift in Sources */,
 				CE9983182655634B00FED748 /* SceneDelegate.swift in Sources */,
 				CE99831A2655634B00FED748 /* ContentView.swift in Sources */,
 			);
