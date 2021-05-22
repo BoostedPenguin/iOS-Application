@@ -9,13 +9,15 @@
 import SwiftUI
 
 struct ContactDetailsView: View {
+    var contact: Contact
+    
     var body: some View {
         ZStack(alignment: .top) {
             Color("PrimaryColor").edgesIgnoringSafeArea(.all)
             
             VStack {
                 HStack {
-                    Text("Name")
+                    Text(contact.name)
                         .font(.title)
                         .padding(.all)
                         .foregroundColor(.white)
@@ -27,7 +29,7 @@ struct ContactDetailsView: View {
                         .foregroundColor(.white)
                         .padding(.all)
                         .padding(.leading)
-                    Text("someemeial@abv.bg")
+                    Text(contact.email)
                         .foregroundColor(.white)
                     Spacer()
                 }
@@ -43,7 +45,7 @@ struct ContactDetailsView: View {
                         .foregroundColor(.white)
                         .padding(.all)
                         .padding(.leading)
-                    Text("+31 31313131212")
+                    Text(contact.phone)
                         .foregroundColor(.white)
                     Spacer()
                 }
@@ -62,12 +64,12 @@ struct ContactDetailsView: View {
 
                             Text("Overdue expenses")
                                 .foregroundColor(.white)
-                            Text("01.01.2021 - 31.01.2021")
+                            Text("\(contact.overdueExpensesDate)")
                                 .foregroundColor(.white)
                                 .font(.caption)
                         }
                         Spacer()
-                        Text("250$")
+                        Text("\(contact.overdueExpenses)$")
                             .foregroundColor(.white)
                     }
                     .padding(.all)
@@ -97,12 +99,12 @@ struct ContactDetailsView: View {
 
                         Text("Projected expenses")
                             .foregroundColor(.white)
-                        Text("01.01.2021 - 31.01.2021")
+                        Text("\(contact.projectedExpensesDate)")
                             .foregroundColor(.white)
                             .font(.caption)
                     }
                     Spacer()
-                    Text("250$")
+                    Text("\(contact.projectedExpenses)$")
                         .foregroundColor(.white)
                 }
                 .padding(.all)
@@ -137,27 +139,60 @@ struct ContactDetailsView: View {
                     Spacer()
                 }
                 
-                HStack {
-                    Image(systemName: "pencil")
-                        .foregroundColor(.white)
-                        .padding(.all)
-                        .padding(.leading)
-                        .opacity(0)
-                    
-                    VStack(alignment: .leading) {
-                        Text("Azure subscription - 1350$")
-                            .foregroundColor(.white)
-                        
-                        Text("Azure subscription - 1350$")
-                            .foregroundColor(.white)
-                            .font(.caption)
+                ForEach(contact.payments, id: \.historyID) { item in
+
+                    VStack {
+                        if(item.paid) {
+
+                            HStack {
+                                Image(systemName: "pencil")
+                                    .foregroundColor(.white)
+                                    .padding(.all)
+                                    .padding(.leading)
+                                    .opacity(0)
+                                
+                                VStack(alignment: .leading) {
+                                    Text(item.title)
+                                        .foregroundColor(.white)
+                                    
+                                    Text(item.paymentDate)
+                                        .foregroundColor(.white)
+                                        .font(.caption)
+                                }
+                                .padding(.all)
+                                 .overlay(
+                                     RoundedRectangle(cornerRadius: 16)
+                                         .stroke(Color.white, lineWidth: 1)
+                                         .opacity(0.1))
+                                Spacer()
+                            }
+                        }
+                        else {
+
+                            HStack {
+                                Image(systemName: "pencil")
+                                    .foregroundColor(.white)
+                                    .padding(.all)
+                                    .padding(.leading)
+                                    .opacity(0)
+                                
+                                VStack(alignment: .leading) {
+                                    Text(item.title)
+                                        .foregroundColor(.white)
+                                    
+                                    Text(item.paymentDate)
+                                        .foregroundColor(.white)
+                                        .font(.caption)
+                                }
+                                .padding(.all)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .background(Color.red)
+                                        .opacity(0.2))
+                                Spacer()
+                            }
+                        }
                     }
-                    .padding(.all)
-                     .overlay(
-                         RoundedRectangle(cornerRadius: 16)
-                             .stroke(Color.white, lineWidth: 1)
-                             .opacity(0.1))
-                    Spacer()
                 }
             }
         }
@@ -165,7 +200,10 @@ struct ContactDetailsView: View {
 }
 
 struct ContactDetailsView_Previews: PreviewProvider {
+    
+    static private var crap = Contact(id: 11, name: "awe", email: "zaw", phone: "123123", overdueExpenses: 12, overdueExpensesDate: "awe", projectedExpenses: 412, projectedExpensesDate: "azws", payments: [Payments(historyID: 1, contactID: 2, title: "awe", paymentDate: "123", paid: true, amount: 5), Payments(historyID: 1, contactID: 2, title: "awe", paymentDate: "123", paid: true, amount: 5)])
+    
     static var previews: some View {
-        ContactDetailsView()
+        ContactDetailsView(contact: crap)
     }
 }
