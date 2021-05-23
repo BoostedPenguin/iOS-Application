@@ -34,30 +34,61 @@ struct Payments: Codable {
 }
 
 
+struct Loader: View {
+    @State var animate = false
+    
+    var body : some View {
+        VStack {
+
+            
+            Circle()
+                .trim(from: 0, to: 0.8)
+                .stroke(AngularGradient(gradient: .init(colors: [.red, .orange]), center: .center), style: StrokeStyle(lineWidth: 8, lineCap: .round))
+                .frame(width: 50, height: 45)
+                .rotationEffect(.init(degrees: self.animate ? 360 : 0))
+                .animation(Animation.linear(duration:
+                    0.7).repeatForever(autoreverses: false))
+            
+            Text("Please wait...").padding(.top)
+        }
+    .padding(20)
+        .background(Color.white)
+    .cornerRadius(15)
+        .onAppear() {
+            self.animate.toggle()
+        }
+    }
+}
+
 
 struct ContactRow: View {
     @State private var contacts = [Contact]()
     
     var body: some View {
-        
         ZStack(alignment: .top) {
             Color("PrimaryColor").edgesIgnoringSafeArea(.all)
-            
+            if(contacts.count == 0) {
+                //Loader()
+            }
+            else {
 
-            
-            List(contacts, id: \.id) {
-                item in VStack(alignment: .leading) {
-                    HStack {
-                        Text(item.name)
-                        Spacer()
-                        NavigationLink(destination: ContactDetailsView(contact: item)) {
-                              Text("")
-                          }
+                
+                List(contacts, id: \.id) {
+                    item in VStack(alignment: .leading) {
+                        HStack {
+                            Text(item.name)
+                            Spacer()
+                            NavigationLink(destination: ContactDetailsView(contact: item)) {
+                                  Text("")
+                              }
+                        }
                     }
                 }
+                
             }
-            .onAppear(perform: loadData)
+
         }
+        .onAppear(perform: loadData)
     }
     
     func loadData() {

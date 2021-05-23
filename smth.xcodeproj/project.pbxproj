@@ -17,7 +17,6 @@
 		CE9983382655634E00FED748 /* smthUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9983372655634E00FED748 /* smthUITests.swift */; };
 		CE99834C2657EECF00FED748 /* ContactDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE99834B2657EECF00FED748 /* ContactDetailsView.swift */; };
 		CE9983512657FAB900FED748 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = CE9983502657FAB900FED748 /* CodeScanner */; };
-		CE998353265938E100FED748 /* ContactsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE998352265938E100FED748 /* ContactsView.swift */; };
 		CE998357265939E300FED748 /* ContactRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE998356265939E300FED748 /* ContactRow.swift */; };
 /* End PBXBuildFile section */
 
@@ -54,7 +53,6 @@
 		CE9983372655634E00FED748 /* smthUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = smthUITests.swift; sourceTree = "<group>"; };
 		CE9983392655634E00FED748 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE99834B2657EECF00FED748 /* ContactDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailsView.swift; sourceTree = "<group>"; };
-		CE998352265938E100FED748 /* ContactsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsView.swift; sourceTree = "<group>"; };
 		CE998356265939E300FED748 /* ContactRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactRow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -115,7 +113,6 @@
 				CE9983232655634D00FED748 /* Info.plist */,
 				CE99831D2655634D00FED748 /* Preview Content */,
 				CE99834B2657EECF00FED748 /* ContactDetailsView.swift */,
-				CE998352265938E100FED748 /* ContactsView.swift */,
 				CE998356265939E300FED748 /* ContactRow.swift */,
 			);
 			path = smth;
@@ -287,7 +284,6 @@
 				CE99834C2657EECF00FED748 /* ContactDetailsView.swift in Sources */,
 				CE9983162655634B00FED748 /* AppDelegate.swift in Sources */,
 				CE9983182655634B00FED748 /* SceneDelegate.swift in Sources */,
-				CE998353265938E100FED748 /* ContactsView.swift in Sources */,
 				CE998357265939E300FED748 /* ContactRow.swift in Sources */,
 				CE99831A2655634B00FED748 /* ContentView.swift in Sources */,
 			);

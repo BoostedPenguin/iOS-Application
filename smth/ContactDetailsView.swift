@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ContactDetailsView: View {
     var contact: Contact
-    
+    @State private var showalert = false
     var body: some View {
         ZStack(alignment: .top) {
             Color("PrimaryColor").edgesIgnoringSafeArea(.all)
@@ -77,11 +77,13 @@ struct ContactDetailsView: View {
                         RoundedRectangle(cornerRadius: 16)
                             .stroke(Color.white, lineWidth: 1)
                             .opacity(0.1))
+
+                        .background(RoundedRectangle(cornerRadius: 16).fill(Color.red).opacity(0.4))
                     .padding(.leading)
                     .padding(.trailing)
                     
                     Button(action: {
-                        
+                        self.showalert = true
                     }) {
                         Image(systemName: "paperplane.fill")
                     }.foregroundColor(.white)
@@ -90,6 +92,9 @@ struct ContactDetailsView: View {
                         RoundedRectangle(cornerRadius: 16)
                             .stroke(Color.white, lineWidth: 1)
                             .opacity(0.1))
+                    .alert(isPresented: $showalert) {
+                        Alert(title: Text("Prototype version"), message: Text("Sorry, this feature isn't available at this moment"))
+                    }
                     
                 }.padding(.trailing)
                 
@@ -124,10 +129,10 @@ struct ContactDetailsView: View {
                         .padding(.leading)
                     
                     VStack(alignment: .leading) {
-                        Text("Azure subscription - 1350$")
+                        Text("Azure subscription - 150$")
                             .foregroundColor(.white)
                         
-                        Text("Azure subscription - 1350$")
+                        Text("Paid on 12.12.2019")
                             .foregroundColor(.white)
                             .font(.caption)
                     }
@@ -152,7 +157,7 @@ struct ContactDetailsView: View {
                                     .opacity(0)
                                 
                                 VStack(alignment: .leading) {
-                                    Text(item.title)
+                                    Text("\(item.title) - \(item.amount)$")
                                         .foregroundColor(.white)
                                     
                                     Text(item.paymentDate)
@@ -177,7 +182,7 @@ struct ContactDetailsView: View {
                                     .opacity(0)
                                 
                                 VStack(alignment: .leading) {
-                                    Text(item.title)
+                                    Text("\(item.title) - \(item.amount)$")
                                         .foregroundColor(.white)
                                     
                                     Text(item.paymentDate)
@@ -187,8 +192,9 @@ struct ContactDetailsView: View {
                                 .padding(.all)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 16)
-                                        .background(Color.red)
-                                        .opacity(0.2))
+                                        .stroke(Color.white, lineWidth: 1)
+                                        .opacity(0.1))
+                                    .background(RoundedRectangle(cornerRadius: 16).fill(Color.red).opacity(0.4))
                                 Spacer()
                             }
                         }
