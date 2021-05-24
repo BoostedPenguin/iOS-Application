@@ -8,12 +8,15 @@
 
 import SwiftUI
 import CodeScanner
-
+import UserNotifications
 struct ContentView: View {
     @State private var showalert = false
     @State private var isShowingScanner = false
     @State private var successCodeScan = false
     @State private var showContacts = false
+    @State private var notifications = false
+    @State private var showContactAlert = false
+    
     var body: some View {
         NavigationView {
 
@@ -26,25 +29,33 @@ struct ContentView: View {
                         Color("PrimaryColor").frame(height: 250)
                         VStack {
                             HStack {
-                                Text("Company name")
-                                    .font(.largeTitle)
+                                Text(self.successCodeScan ? "My Company" : "Company Name")
+                                    .font(.system(size: 30))
                                     .foregroundColor(.white)
                                     .padding(.leading)
                                 Spacer()
-                                Button(action: {
-                                    self.isShowingScanner = true
-                                }) {
-                                    Image(systemName: "square.and.arrow.up")
-                                }.foregroundColor(.white)
-                                    .padding(.all)
-                                    .background(Color.black)
-                                    .sheet(isPresented: $isShowingScanner) {
-                                        CodeScannerView(codeTypes: [.qr], simulatedData: "Some info and email", completion: self.handleScan)
-                                }
 
+                                Toggle("",isOn: $notifications)
+                                    .onReceive([self.notifications].publisher.first()) {
+                                        (value) in
+                                        if value {
+                                            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+                                                if success {
+                                                   self.notifications = true
+                                                    self.callNotification()
+                                                    print("All set!")
+                                                } else if let error = error {
+                                                    print(error.localizedDescription)
+                                                }
+                                            }
+                                        }
+                                }
+                                .disabled(!successCodeScan)
+                                
+                                Image(systemName: self.notifications ? "bell.fill" : "bell.slash").foregroundColor(Color.white)
                             }.padding(.trailing)
                             HStack {
-                                Text("20 charges overdue")
+                                Text(self.successCodeScan ? "20 charges overdue" : "")
 
                                     .fontWeight(.light)
                                     .foregroundColor(.red)
@@ -52,7 +63,7 @@ struct ContentView: View {
                                 Spacer()
                             }
                             HStack {
-                                Text("5 upcoming charges")
+                                Text(self.successCodeScan ? "5 upcoming charges" : "")
                                     .fontWeight(.light)
                                     .foregroundColor(.white)
                                     .padding(.leading)
@@ -63,10 +74,28 @@ struct ContentView: View {
                                     self.showalert = true
                                     }.padding(.all)
                                     .foregroundColor(.white)
-                                    .background(Color("OverviewButtonColor"))
+
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 16)
+                                            .stroke(Color.white, lineWidth: 1)
+                                            .opacity(0.1))
+
+                                        .background(RoundedRectangle(cornerRadius: 16).fill(Color("OverviewButtonColor")))
                                     .alert(isPresented: $showalert) {
                                         Alert(title: Text("Prototype version"), message: Text("Sorry, this feature isn't available at this moment"))
                                     }
+                                
+                                Button(action: {
+                                    self.isShowingScanner = true
+                                }) {
+                                    Image(systemName: self.successCodeScan ? "link.icloud.fill" : "xmark.icloud.fill")
+                                    Text(self.successCodeScan ? "Connected" : "Connect")
+                                }.foregroundColor(.white)
+                                    .padding(.all)
+                                    .background(RoundedRectangle(cornerRadius: 16).fill(Color.black).opacity(0.4))
+                                    .sheet(isPresented: $isShowingScanner) {
+                                        CodeScannerView(codeTypes: [.qr], simulatedData: "Some info and email", completion: self.handleScan)
+                                }
                                 Spacer()
                             }
                             .padding(.leading)
@@ -100,7 +129,15 @@ struct ContentView: View {
                             }
                         }
                         .onTapGesture {
-                            self.showContacts = true
+                            if(!self.successCodeScan) {
+                                self.showContactAlert = true
+                            }
+                            else {
+                                self.showContacts = true
+                            }
+                    }
+                    .alert(isPresented: $showContactAlert) {
+                        Alert(title: Text("No connection to desktop"), message: Text("You must connect to the PC application first before proceeding!"))
                     }
                     ZStack {
                         Color("MainUpcomingChargesBackground").frame(height: 180)
@@ -137,6 +174,23 @@ struct ContentView: View {
                 }
             }
         }
+    }
+    
+    func callNotification() {
+
+        let content = UNMutableNotificationContent()
+        content.title = "Company name"
+        content.subtitle = "You have 20 overdue charges"
+        content.sound = UNNotificationSound.default
+
+        // show this notification five seconds from now
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+
+        // choose a random identifier
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+
+        // add our notification request
+        UNUserNotificationCenter.current().add(request)
     }
     
     func handleScan(result: Result<String, CodeScannerView.ScanError>) {

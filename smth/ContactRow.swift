@@ -67,12 +67,12 @@ struct ContactRow: View {
     var body: some View {
         ZStack(alignment: .top) {
             Color("PrimaryColor").edgesIgnoringSafeArea(.all)
+            Loader()
+            
             if(contacts.count == 0) {
-                //Loader()
+                Loader()
             }
             else {
-
-                
                 List(contacts, id: \.id) {
                     item in VStack(alignment: .leading) {
                         HStack {
@@ -82,9 +82,8 @@ struct ContactRow: View {
                                   Text("")
                               }
                         }
-                    }
+                    }                
                 }
-                
             }
 
         }
